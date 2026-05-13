@@ -82,6 +82,20 @@ const BYPASSER_H          = 130;
 const NODE_OFFSET_PER_PRESET = 10000;
 const LINK_OFFSET_PER_PRESET = 10000;
 
+// ── Extra groups imported from `딸각 에셋 4 (2).json` ────────────────────────
+// 1. Text2Image — standalone img-gen pipeline (10 nodes)
+// 2. AssetBase  — IPAdapter image-batch accuracy correction (22 nodes)
+// 3. ControlCenter — shared LoRA / checkpoint / sampler primitive controls
+//    (8 nodes; 2 Bypassers inside are excluded — we use our own toggle system)
+const EXTRA_SOURCE_FILE        = '딸각 에셋 4 (2).json';
+const EXTRA_GROUP_TITLES       = ['1. Text2Image', '2. AssetBase', 'ControlCenter'];
+const EXTRA_NODE_ID_OFFSET     = 200000;   // safely above preset offsets (≤90 000)
+const EXTRA_LINK_ID_OFFSET     = 200000;
+const EXTRA_X_OFFSET           = 11000;    // shift right of widest preset (~7220)
+const EXTRA_Y_OFFSET           = 0;
+// Exclude these node types from ControlCenter — we have our own bypasser system
+const EXTRA_EXCLUDED_NODE_TYPES = new Set(['Fast Groups Bypasser (rgthree)']);
+
 // Base node IDs (캐릭터 설정 group) — kept as-is in the merged workflow
 const BASE_NODE_IDS = new Set([2, 15, 16, 17, 21, 24, 39, 527, 532]);
 const BASE_CTX_FROM_NODE_ID = 532;
@@ -294,6 +308,144 @@ if (baseCtxNode?.outputs?.[BASE_CTX_FROM_SLOT]) {
   baseCtxNode.outputs[BASE_CTX_FROM_SLOT].links = allCtxLinkIds.slice();
 }
 
+// ── 3-e2) Import extra groups (Text2Image / AssetBase / ControlCenter) ──────
+// Source: `딸각 에셋 4 (2).json` — pulls each group's nodes (with internal +
+// inter-group links) into the combined workflow so the same ComfyUI canvas
+// also contains a standalone Text2Image pipeline and the AssetBase IPAdapter
+// accuracy-correction subgraph. They are not auto-wired to the existing
+// per-emotion subgraphs (which encapsulate model/clip/vae via base_ctx); the
+// user wires AssetBase into presets manually inside ComfyUI as needed.
+console.log('\n═══ PHASE 3.5: Importing extra groups from source file ═══\n');
+
+const extraSrcPath = path.join(ROOT, EXTRA_SOURCE_FILE);
+if (fs.existsSync(extraSrcPath)) {
+  const extraSrc = JSON.parse(fs.readFileSync(extraSrcPath, 'utf8'));
+
+  // Group bounding-box hit test (same convention as generate_workflow.js)
+  const inG = (node, g) => {
+    const [gx, gy, gw, gh] = g.bounding;
+    const [nx, ny] = node.pos;
+    return nx >= gx && nx <= gx + gw && ny >= gy && ny <= gy + gh;
+  };
+
+  // 1) Resolve which extra groups exist in the source
+  const extraGroups = EXTRA_GROUP_TITLES
+    .map(t => extraSrc.groups.find(g => g.title === t))
+    .filter(Boolean);
+  if (extraGroups.length !== EXTRA_GROUP_TITLES.length) {
+    const missing = EXTRA_GROUP_TITLES.filter(
+      t => !extraSrc.groups.some(g => g.title === t)
+    );
+    console.warn(`⚠ 누락된 그룹: ${missing.join(', ')}`);
+  }
+
+  // 2) Collect the node-id set we will import (across all extra groups)
+  const importNodeIdSet = new Set();
+  for (const g of extraGroups) {
+    for (const n of extraSrc.nodes) {
+      if (!inG(n, g)) continue;
+      if (EXTRA_EXCLUDED_NODE_TYPES.has(n.type)) continue;
+      importNodeIdSet.add(n.id);
+    }
+  }
+
+  // 3) Clone nodes with offset id + shifted position
+  let importedNodes = 0;
+  for (const id of importNodeIdSet) {
+    const src = extraSrc.nodes.find(n => n.id === id);
+    if (!src) continue;
+    const n = JSON.parse(JSON.stringify(src));
+    n.id  = src.id + EXTRA_NODE_ID_OFFSET;
+    n.pos = [src.pos[0] + EXTRA_X_OFFSET, src.pos[1] + EXTRA_Y_OFFSET];
+
+    // Remap link IDs in inputs/outputs to the offset namespace
+    if (Array.isArray(n.inputs)) {
+      for (const inp of n.inputs) {
+        if (inp.link != null) inp.link = inp.link + EXTRA_LINK_ID_OFFSET;
+      }
+    }
+    if (Array.isArray(n.outputs)) {
+      for (const out of n.outputs) {
+        if (Array.isArray(out.links)) {
+          out.links = out.links.map(lid => lid + EXTRA_LINK_ID_OFFSET);
+        }
+      }
+    }
+    combined.nodes.push(n);
+    importedNodes++;
+  }
+
+  // 4) Clone links whose BOTH endpoints are inside the imported set
+  //    (cross-group links between Text2Image/AssetBase/ControlCenter are kept;
+  //     links to/from any other source node are dropped)
+  let importedLinks = 0, droppedLinks = 0;
+  for (const l of extraSrc.links) {
+    const [lid, from, fs, to, ts, type] = l;
+    if (importNodeIdSet.has(from) && importNodeIdSet.has(to)) {
+      combined.links.push([
+        lid  + EXTRA_LINK_ID_OFFSET,
+        from + EXTRA_NODE_ID_OFFSET,
+        fs,
+        to   + EXTRA_NODE_ID_OFFSET,
+        ts,
+        type,
+      ]);
+      importedLinks++;
+    } else if (importNodeIdSet.has(from) || importNodeIdSet.has(to)) {
+      droppedLinks++;
+    }
+  }
+
+  // After remapping link ids, some kept-node output.links arrays still reference
+  // link ids that we DROPPED (because the other endpoint was outside our import
+  // set). Filter those out so the workflow validates cleanly in ComfyUI.
+  const importedLinkIdSet = new Set(
+    combined.links
+      .map(l => l[0])
+      .filter(lid => lid > EXTRA_LINK_ID_OFFSET)
+  );
+  for (const n of combined.nodes) {
+    if (n.id < EXTRA_NODE_ID_OFFSET) continue;
+    if (Array.isArray(n.outputs)) {
+      for (const out of n.outputs) {
+        if (Array.isArray(out.links)) {
+          out.links = out.links.filter(lid => importedLinkIdSet.has(lid));
+          if (out.links.length === 0) out.links = null;
+        }
+      }
+    }
+    if (Array.isArray(n.inputs)) {
+      for (const inp of n.inputs) {
+        if (inp.link != null && !importedLinkIdSet.has(inp.link)) {
+          inp.link = null;
+        }
+      }
+    }
+  }
+
+  // 5) Clone the group rectangles themselves
+  for (const g of extraGroups) {
+    const gg = JSON.parse(JSON.stringify(g));
+    gg.id = nextGroupId++;
+    gg.bounding = [
+      g.bounding[0] + EXTRA_X_OFFSET,
+      g.bounding[1] + EXTRA_Y_OFFSET,
+      g.bounding[2],
+      g.bounding[3],
+    ];
+    if (!gg.flags) gg.flags = {};
+    gg.flags.pinned = true;
+    combined.groups.push(gg);
+  }
+
+  console.log(
+    `✓ 가져온 그룹 ${extraGroups.length}개: ${extraGroups.map(g => g.title).join(', ')}\n` +
+    `  노드 ${importedNodes}개, 링크 ${importedLinks}개 (외부 연결 ${droppedLinks}건은 누락)`
+  );
+} else {
+  console.warn(`⚠ ${EXTRA_SOURCE_FILE} 없음 — 추가 그룹 가져오기 건너뜀`);
+}
+
 // ── 3-f) Allocate Bypasser nodes (all IDs above max emotion node) ──────────
 let nextNodeId = Math.max(0, ...combined.nodes.map(n => n.id)) + 1;
 
@@ -343,14 +495,25 @@ individualWFs.forEach(({ name }, idx) => {
   bypasserNodeIds.push(id);
 });
 
-// Master Bypasser — matches all 9 preset wrapper group titles
+// Master Bypasser — matches all 9 preset wrapper group titles + 3 extra groups
 const masterMatchTitle =
-  '^(' + INPUT_NAMES.map(escapeRe).join('|') + ')$';
+  '^(' +
+  INPUT_NAMES.concat(EXTRA_GROUP_TITLES).map(escapeRe).join('|') +
+  ')$';
 const masterId = nextNodeId++;
 const masterX  = ALL_BYPASSER_X_BASE + INPUT_NAMES.length * BYPASSER_STRIDE_X;
 combined.nodes.push(
   makeBypasser(masterId, masterX, ALL_BYPASSER_Y, '전체 ON/OFF', masterMatchTitle, 1)
 );
+
+// 3 extra-group Bypassers (placed in a second row below the preset row)
+EXTRA_GROUP_TITLES.forEach((title, idx) => {
+  const id     = nextNodeId++;
+  const x      = ALL_BYPASSER_X_BASE + idx * BYPASSER_STRIDE_X;
+  const y      = ALL_BYPASSER_Y + BYPASSER_H + 30;
+  const mtitle = '^' + escapeRe(title) + '$';
+  combined.nodes.push(makeBypasser(id, x, y, title, mtitle, 100 + idx));
+});
 
 // ── 3-g) Update counters ──────────────────────────────────────────────────
 combined.last_node_id = Math.max(...combined.nodes.map(n => n.id));
@@ -413,6 +576,23 @@ console.log(
   `(${masterBypassers.length}/1)`
 );
 if (presetBypassers.length !== 9 || masterBypassers.length !== 1) ok = false;
+
+// 4-d2) Check extra groups (Text2Image / AssetBase / ControlCenter) + their Bypassers
+const extraImported = combined.groups.filter(g => EXTRA_GROUP_TITLES.includes(g.title));
+console.log(
+  `추가 그룹: ${extraImported.length === EXTRA_GROUP_TITLES.length ? '✓' : '✗'} ` +
+  `(${extraImported.length}/${EXTRA_GROUP_TITLES.length}) — ${extraImported.map(g => g.title).join(', ')}`
+);
+if (extraImported.length !== EXTRA_GROUP_TITLES.length) ok = false;
+
+const extraBypassers = combined.nodes.filter(
+  n => n.type === 'Fast Groups Bypasser (rgthree)' && EXTRA_GROUP_TITLES.includes(n.title)
+);
+console.log(
+  `추가 그룹 Bypasser: ${extraBypassers.length === EXTRA_GROUP_TITLES.length ? '✓' : '✗'} ` +
+  `(${extraBypassers.length}/${EXTRA_GROUP_TITLES.length})`
+);
+if (extraBypassers.length !== EXTRA_GROUP_TITLES.length) ok = false;
 
 // 4-e) NAI syntax check (on subgraph definitions only — node widget prompts)
 let naiFound = 0;

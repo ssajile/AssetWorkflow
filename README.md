@@ -39,7 +39,10 @@ ComfyUI 캔버스에 `combined_workflow.json`을 드래그&드롭하거나, **Lo
 | `직전` | 해당 프리셋 전체 ON/OFF |
 | `카메라` | 해당 프리셋 전체 ON/OFF |
 | `혼자` | 해당 프리셋 전체 ON/OFF |
-| `전체 ON/OFF` | **모든 프리셋** 동시 ON/OFF (마스터 토글) |
+| `전체 ON/OFF` | **모든 프리셋 + 추가 그룹** 동시 ON/OFF (마스터 토글) |
+| `1. Text2Image` | 독립 Text2Image 파이프라인 ON/OFF |
+| `2. AssetBase` | IPAdapter 기반 정확도 보정 그룹 ON/OFF |
+| `ControlCenter` | 공통 체크포인트 / VAE / 샘플러 / LoRA 프리미티브 그룹 ON/OFF |
 
 Bypasser 노드에서 **각 감정 이름 왼쪽의 토글 버튼**을 클릭하면 해당 감정 서브그래프 및 저장 노드가 mute/bypass 됩니다.  
 프리셋 이름 버튼 하나를 클릭하면 그 프리셋 안의 **모든 감정이 한 번에** 켜지거나 꺼집니다.
@@ -59,6 +62,19 @@ y = 42 000  → 직전          (17개 감정,  4열×5행)
 y = 49 000  → 카메라        (16개 감정,  4열×5행)
 y = 56 000  → 혼자          (52개 감정, 11열×5행)
 ```
+
+### 4. 추가 그룹 (`딸각 에셋 4 (2).json` 에서 가져옴)
+
+캔버스 우측(x ≈ +8 000 영역, y ≈ 1 600 ~ 4 400)에 3개의 그룹이 함께 들어 있습니다:
+
+| 그룹 | 노드 수 | 용도 |
+|------|---------|------|
+| `1. Text2Image` | 10 | 독립 Text2Image 파이프라인 (Efficient Loader → KSampler → SaveImage, 자체 프롬프트) |
+| `2. AssetBase` | 22 | IPAdapter Tiled Batch 기반 정확도 보정 (8개 감정 LoadImage → ImageBatch → IPAdapter MODEL + 공통 Text Prompt) |
+| `ControlCenter` | 8 | 공통 Checkpoint / VAE / Sampler / Scheduler / Steps / CFG / LoRA / SDXL Resolutions 프리미티브 (1·2 그룹이 참조) |
+
+내부 wiring과 그룹 간 연결(ControlCenter → Text2Image / AssetBase)은 그대로 보존되어 import 됩니다.  
+**감정 서브그래프와의 자동 연결은 포함되지 않습니다** — 감정 워크플로우는 `base_ctx` (RGTHREE_CONTEXT) 묶음 구조라 외부 직접 연결을 받지 않습니다. AssetBase 출력을 프리셋에서 쓰려면 ComfyUI에서 수동으로 wiring 하세요.
 
 ## 프리셋 요약
 
@@ -93,5 +109,6 @@ AssetWorkflow/
 ├── 이중.json                    # 입력 프리셋 (변경 금지)
 ├── 직전.json                    # 입력 프리셋 (변경 금지)
 ├── 카메라.json                  # 입력 프리셋 (변경 금지)
-└── 혼자.json                    # 입력 프리셋 (변경 금지)
+├── 혼자.json                    # 입력 프리셋 (변경 금지)
+└── 딸각 에셋 4 (2).json         # 추가 그룹(Text2Image / AssetBase / ControlCenter) 소스 (변경 금지)
 ```
