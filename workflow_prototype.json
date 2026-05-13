@@ -1,0 +1,2508 @@
+{
+  "id": "cfd61e45-4d44-467c-ab56-832c1566e0c5",
+  "revision": 0,
+  "last_node_id": 545,
+  "last_link_id": 324,
+  "nodes": [
+    {
+      "id": 2,
+      "type": "Efficient Loader 💬ED",
+      "pos": [
+        -3190,
+        -240
+      ],
+      "size": [
+        330,
+        510
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "context_opt",
+          "shape": 7,
+          "type": "RGTHREE_CONTEXT",
+          "link": null
+        },
+        {
+          "name": "lora_stack",
+          "shape": 7,
+          "type": "LORA_STACK",
+          "link": 25
+        },
+        {
+          "name": "cnet_stack",
+          "shape": 7,
+          "type": "CONTROL_NET_STACK",
+          "link": null
+        },
+        {
+          "name": "pixels",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "negative",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONTEXT",
+          "type": "RGTHREE_CONTEXT",
+          "links": [
+            304
+          ]
+        },
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            317
+          ]
+        },
+        {
+          "name": "POSITIVE",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "NEGATIVE",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "LATENT",
+          "shape": 6,
+          "type": "LATENT",
+          "links": null
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            59
+          ]
+        },
+        {
+          "name": "DEPENDENCIES",
+          "type": "DEPENDENCIES",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "efficiency-nodes-ED",
+        "ver": "d9d275500e5eeb2d24733c2f5d12c3a90c402104",
+        "Node name for S&R": "Efficient Loader 💬ED",
+        "Use Latent Rebatch": true,
+        "Token normalization": "none",
+        "Weight interpretation": "comfy",
+        "Use tiled VAE encode": false,
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        "🔌 ext model input",
+        "Baked VAE",
+        -2,
+        "✍️ Txt2Img",
+        1,
+        -1,
+        null,
+        6,
+        "euler",
+        "karras",
+        1024,
+        1024
+      ],
+      "color": "#223",
+      "bgcolor": "#335",
+      "shape": "box"
+    },
+    {
+      "id": 24,
+      "type": "LoRA Stacker 💬ED",
+      "pos": [
+        -3190,
+        -550
+      ],
+      "size": [
+        330,
+        160
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 0,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "lora_stack",
+          "shape": 7,
+          "type": "LORA_STACK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LORA_STACK",
+          "type": "LORA_STACK",
+          "links": [
+            25,
+            310
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "efficiency-nodes-ED",
+        "ver": "d9d275500e5eeb2d24733c2f5d12c3a90c402104",
+        "Node name for S&R": "LoRA Stacker 💬ED",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        "simple",
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        "None",
+        1,
+        1,
+        1,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        "Clear LoRAs"
+      ],
+      "color": "#223",
+      "bgcolor": "#335",
+      "shape": "box"
+    },
+    {
+      "id": 21,
+      "type": "StringConcatenate",
+      "pos": [
+        -2410,
+        -300
+      ],
+      "size": [
+        520,
+        200
+      ],
+      "flags": {
+        "collapsed": true,
+        "pinned": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "string_a",
+          "type": "STRING",
+          "widget": {
+            "name": "string_a"
+          },
+          "link": 20
+        },
+        {
+          "name": "string_b",
+          "type": "STRING",
+          "widget": {
+            "name": "string_b"
+          },
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            308
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.20.1",
+        "Node name for S&R": "StringConcatenate",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        "",
+        "",
+        ","
+      ]
+    },
+    {
+      "id": 39,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -2400,
+        70
+      ],
+      "size": [
+        400,
+        90
+      ],
+      "flags": {
+        "collapsed": true,
+        "pinned": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 59
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 55
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            306
+          ]
+        }
+      ],
+      "title": "부정 컨디션",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.20.1",
+        "Node name for S&R": "CLIPTextEncode",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 527,
+      "type": "ImpactInt",
+      "pos": [
+        -2840,
+        210
+      ],
+      "size": [
+        210,
+        60
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            307
+          ]
+        }
+      ],
+      "title": "스탭",
+      "properties": {
+        "cnr_id": "comfyui-impact-pack",
+        "ver": "8.28.3",
+        "Node name for S&R": "ImpactInt",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        24
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 532,
+      "type": "ContextCream",
+      "pos": [
+        -2440,
+        240
+      ],
+      "size": [
+        200,
+        490
+      ],
+      "flags": {
+        "collapsed": true,
+        "pinned": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "base_ctx",
+          "shape": 7,
+          "type": "RGTHREE_CONTEXT",
+          "link": 304
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 317
+        },
+        {
+          "name": "clip",
+          "shape": 7,
+          "type": "CLIP",
+          "link": null
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "shape": 7,
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "negative",
+          "shape": 7,
+          "type": "CONDITIONING",
+          "link": 306
+        },
+        {
+          "name": "latent",
+          "shape": 7,
+          "type": "LATENT",
+          "link": null
+        },
+        {
+          "name": "images",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "seed",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "shape": 7,
+          "type": "INT",
+          "link": 307
+        },
+        {
+          "name": "step_refiner",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "cfg",
+          "shape": 7,
+          "type": "FLOAT",
+          "link": null
+        },
+        {
+          "name": "ckpt_name",
+          "shape": 7,
+          "type": "COMBO",
+          "link": null
+        },
+        {
+          "name": "sampler",
+          "shape": 7,
+          "type": "COMBO",
+          "link": null
+        },
+        {
+          "name": "scheduler",
+          "shape": 7,
+          "type": "COMBO",
+          "link": null
+        },
+        {
+          "name": "clip_width",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "clip_height",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "text_pos_g",
+          "shape": 7,
+          "type": "STRING",
+          "link": 308
+        },
+        {
+          "name": "text_pos_l",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "text_neg_g",
+          "shape": 7,
+          "type": "STRING",
+          "link": 318
+        },
+        {
+          "name": "text_neg_l",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "mask",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "control_net",
+          "shape": 7,
+          "type": "CONTROL_NET",
+          "link": null
+        },
+        {
+          "name": "lora_stack",
+          "shape": 7,
+          "type": "LORA_STACK",
+          "link": 310
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONTEXT",
+          "type": "RGTHREE_CONTEXT",
+          "links": [
+            309
+          ]
+        },
+        {
+          "name": "LORA_STACK",
+          "type": "LORA_STACK",
+          "links": null
+        },
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": null
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": null
+        },
+        {
+          "name": "POSITIVE",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "NEGATIVE",
+          "type": "CONDITIONING",
+          "links": null
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": null
+        },
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "SEED",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "STEPS",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "STEP_REFINER",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "CFG",
+          "type": "FLOAT",
+          "links": null
+        },
+        {
+          "name": "CKPT_NAME",
+          "type": "COMBO",
+          "links": null
+        },
+        {
+          "name": "SAMPLER",
+          "type": "COMBO",
+          "links": null
+        },
+        {
+          "name": "SCHEDULER",
+          "type": "COMBO",
+          "links": null
+        },
+        {
+          "name": "CLIP_WIDTH",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "CLIP_HEIGHT",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "TEXT_POS_G",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "TEXT_POS_L",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "TEXT_NEG_G",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "TEXT_NEG_L",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        },
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ContextCream",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 520,
+      "type": "Fast Groups Bypasser (rgthree)",
+      "pos": [
+        -2230,
+        120
+      ],
+      "size": [
+        250,
+        130
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "links": null
+        }
+      ],
+      "title": "그룹1",
+      "properties": {
+        "matchColors": "",
+        "matchTitle": "angry|annoyed",
+        "showNav": true,
+        "showAllGraphs": false,
+        "sort": "alphanumeric",
+        "customSortAlphabet": "",
+        "toggleRestriction": "default",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": "Simple Text 💬ED",
+      "pos": [
+        -2840,
+        -350
+      ],
+      "size": [
+        580,
+        320
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "title": "메인 프롬프트",
+      "properties": {
+        "cnr_id": "efficiency-nodes-ED",
+        "ver": "d9d275500e5eeb2d24733c2f5d12c3a90c402104",
+        "Node name for S&R": "Simple Text 💬ED",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#232",
+      "bgcolor": "#353",
+      "shape": "box"
+    },
+    {
+      "id": 17,
+      "type": "Simple Text 💬ED",
+      "pos": [
+        -2840,
+        20
+      ],
+      "size": [
+        580,
+        140
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            55,
+            318
+          ]
+        }
+      ],
+      "title": "부정 프롬프트",
+      "properties": {
+        "cnr_id": "efficiency-nodes-ED",
+        "ver": "d9d275500e5eeb2d24733c2f5d12c3a90c402104",
+        "Node name for S&R": "Simple Text 💬ED",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#322",
+      "bgcolor": "#533",
+      "shape": "box"
+    },
+    {
+      "id": 15,
+      "type": "Simple Text 💬ED",
+      "pos": [
+        -2840,
+        -550
+      ],
+      "size": [
+        580,
+        150
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_a",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            20
+          ]
+        }
+      ],
+      "title": "퀄리티 프롬프트",
+      "properties": {
+        "cnr_id": "efficiency-nodes-ED",
+        "ver": "d9d275500e5eeb2d24733c2f5d12c3a90c402104",
+        "Node name for S&R": "Simple Text 💬ED",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#233",
+      "bgcolor": "#355",
+      "shape": "box"
+    },
+    {
+      "id": 118,
+      "type": "64522e15-b632-408e-a137-54eb0c085fe2",
+      "pos": [
+        -3200,
+        360
+      ],
+      "size": [
+        600,
+        270
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "base_ctx",
+          "type": "RGTHREE_CONTEXT",
+          "link": 309
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            311
+          ]
+        },
+        {
+          "name": "CONTEXT",
+          "type": "RGTHREE_CONTEXT",
+          "links": [
+            312
+          ]
+        }
+      ],
+      "properties": {
+        "proxyWidgets": [
+          [
+            "511",
+            "select"
+          ],
+          [
+            "511",
+            "strings"
+          ]
+        ],
+        "cnr_id": "comfy-core",
+        "ver": "0.20.1",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 533,
+      "type": "SaveImageWithContext",
+      "pos": [
+        -3200,
+        660
+      ],
+      "size": [
+        600,
+        570
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 311
+        },
+        {
+          "name": "context",
+          "type": "RGTHREE_CONTEXT",
+          "link": 312
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImageWithContext",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.5.2"
+        }
+      },
+      "widgets_values": [
+        "emotion/angry"
+      ]
+    }
+  ],
+  "links": [
+    [
+      20,
+      15,
+      0,
+      21,
+      0,
+      "STRING"
+    ],
+    [
+      21,
+      16,
+      0,
+      21,
+      1,
+      "STRING"
+    ],
+    [
+      25,
+      24,
+      0,
+      2,
+      1,
+      "LORA_STACK"
+    ],
+    [
+      55,
+      17,
+      0,
+      39,
+      1,
+      "STRING"
+    ],
+    [
+      59,
+      2,
+      6,
+      39,
+      0,
+      "CLIP"
+    ],
+    [
+      304,
+      2,
+      0,
+      532,
+      0,
+      "RGTHREE_CONTEXT"
+    ],
+    [
+      306,
+      39,
+      0,
+      532,
+      5,
+      "CONDITIONING"
+    ],
+    [
+      307,
+      527,
+      0,
+      532,
+      9,
+      "INT"
+    ],
+    [
+      308,
+      21,
+      0,
+      532,
+      17,
+      "STRING"
+    ],
+    [
+      309,
+      532,
+      0,
+      118,
+      0,
+      "RGTHREE_CONTEXT"
+    ],
+    [
+      310,
+      24,
+      0,
+      532,
+      23,
+      "LORA_STACK"
+    ],
+    [
+      311,
+      118,
+      0,
+      533,
+      0,
+      "IMAGE"
+    ],
+    [
+      312,
+      118,
+      1,
+      533,
+      1,
+      "RGTHREE_CONTEXT"
+    ],
+    [
+      317,
+      2,
+      1,
+      532,
+      1,
+      "MODEL"
+    ],
+    [
+      318,
+      17,
+      0,
+      532,
+      19,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 2,
+      "title": "캐릭터 설정",
+      "bounding": [
+        -3200,
+        -620,
+        950,
+        903.6
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    },
+    {
+      "id": 3,
+      "title": "angry",
+      "bounding": [
+        -3200,
+        300,
+        600,
+        930
+      ],
+      "color": "#b58b2a",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    }
+  ],
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "64522e15-b632-408e-a137-54eb0c085fe2",
+        "version": 1,
+        "state": {
+          "lastGroupId": 5,
+          "lastNodeId": 545,
+          "lastLinkId": 324,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "angry",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            -2160,
+            350,
+            120,
+            100
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            -610,
+            350,
+            120,
+            80
+          ]
+        },
+        "inputs": [
+          {
+            "id": "f0f0b649-8597-466d-ba7b-8f4d61a45078",
+            "name": "base_ctx",
+            "type": "RGTHREE_CONTEXT",
+            "linkIds": [
+              281
+            ],
+            "dir": 3,
+            "pos": [
+              -2060,
+              370
+            ]
+          },
+          {
+            "id": "c12e3c9c-c6fa-4b10-96ac-474afe612216",
+            "name": "select",
+            "type": "INT",
+            "linkIds": [
+              277
+            ],
+            "pos": [
+              -2060,
+              390
+            ]
+          },
+          {
+            "id": "9206f079-8112-4637-87e7-76b7cd250963",
+            "name": "strings",
+            "type": "STRING",
+            "linkIds": [
+              315
+            ],
+            "pos": [
+              -2060,
+              410
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "e49aa4c3-2d72-4914-8a91-f8c234ab373e",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              171
+            ],
+            "localized_name": "이미지",
+            "pos": [
+              -590,
+              370
+            ]
+          },
+          {
+            "id": "198eeddd-97c5-4716-8cd3-43abff9069db",
+            "name": "CONTEXT",
+            "type": "RGTHREE_CONTEXT",
+            "linkIds": [
+              320
+            ],
+            "pos": [
+              -590,
+              390
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 511,
+            "type": "ImpactStringSelector",
+            "pos": [
+              -2020,
+              -80
+            ],
+            "size": [
+              400,
+              200
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "strings",
+                "name": "strings",
+                "type": "STRING",
+                "widget": {
+                  "name": "strings"
+                },
+                "link": 315
+              },
+              {
+                "localized_name": "select",
+                "name": "select",
+                "type": "INT",
+                "widget": {
+                  "name": "select"
+                },
+                "link": 277
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "문자열",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  278
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfyui-impact-pack",
+              "ver": "8.28.3",
+              "Node name for S&R": "ImpactStringSelector",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": [
+              "#looking at viewer, (angry, anger vein:1.21)\n#looking at viewer, (angry:1.1), frown, parted lips, wavy mouth, clenched teeth, (clenched hand, arm at side:1.1), v-shaped eyebrows, shaded face, (veins:1.1)\n#looking at viewer, (angry:1.1), anger vein, (wavy mouth:1.1), (v-shaped eyebrows:1.1), open mouth, (hand on own hip, arm at side:1.1)\n#looking at viewer, (angry:1.1), anger vein, wavy mouth, open mouth, (tsurime:1.1), v-shaped eyebrows",
+              true,
+              0
+            ]
+          },
+          {
+            "id": 522,
+            "type": "ContextCream",
+            "pos": [
+              -1960,
+              320
+            ],
+            "size": [
+              200,
+              490
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "base_ctx",
+                "name": "base_ctx",
+                "shape": 7,
+                "type": "RGTHREE_CONTEXT",
+                "link": 281
+              },
+              {
+                "localized_name": "model",
+                "name": "model",
+                "shape": 7,
+                "type": "MODEL",
+                "link": null
+              },
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "shape": 7,
+                "type": "CLIP",
+                "link": null
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "shape": 7,
+                "type": "VAE",
+                "link": null
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "shape": 7,
+                "type": "CONDITIONING",
+                "link": null
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "shape": 7,
+                "type": "CONDITIONING",
+                "link": null
+              },
+              {
+                "localized_name": "latent",
+                "name": "latent",
+                "shape": 7,
+                "type": "LATENT",
+                "link": null
+              },
+              {
+                "localized_name": "images",
+                "name": "images",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": null
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "steps",
+                "name": "steps",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "step_refiner",
+                "name": "step_refiner",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "cfg",
+                "name": "cfg",
+                "shape": 7,
+                "type": "FLOAT",
+                "link": null
+              },
+              {
+                "localized_name": "ckpt_name",
+                "name": "ckpt_name",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "sampler",
+                "name": "sampler",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "scheduler",
+                "name": "scheduler",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "clip_width",
+                "name": "clip_width",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "clip_height",
+                "name": "clip_height",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "text_pos_g",
+                "name": "text_pos_g",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "text_pos_l",
+                "name": "text_pos_l",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "text_neg_g",
+                "name": "text_neg_g",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "text_neg_l",
+                "name": "text_neg_l",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "mask",
+                "name": "mask",
+                "shape": 7,
+                "type": "MASK",
+                "link": null
+              },
+              {
+                "localized_name": "control_net",
+                "name": "control_net",
+                "shape": 7,
+                "type": "CONTROL_NET",
+                "link": null
+              },
+              {
+                "localized_name": "lora_stack",
+                "name": "lora_stack",
+                "shape": 7,
+                "type": "LORA_STACK",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "CONTEXT",
+                "name": "CONTEXT",
+                "type": "RGTHREE_CONTEXT",
+                "links": [
+                  319
+                ]
+              },
+              {
+                "localized_name": "LORA_STACK",
+                "name": "LORA_STACK",
+                "type": "LORA_STACK",
+                "links": []
+              },
+              {
+                "localized_name": "모델",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  283
+                ]
+              },
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": [
+                  298
+                ]
+              },
+              {
+                "localized_name": "VAE",
+                "name": "VAE",
+                "type": "VAE",
+                "links": []
+              },
+              {
+                "localized_name": "POSITIVE",
+                "name": "POSITIVE",
+                "type": "CONDITIONING",
+                "links": []
+              },
+              {
+                "localized_name": "NEGATIVE",
+                "name": "NEGATIVE",
+                "type": "CONDITIONING",
+                "links": [
+                  286
+                ]
+              },
+              {
+                "localized_name": "잠재 데이터",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  287
+                ]
+              },
+              {
+                "localized_name": "이미지",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": null
+              },
+              {
+                "localized_name": "SEED",
+                "name": "SEED",
+                "type": "INT",
+                "links": [
+                  288
+                ]
+              },
+              {
+                "localized_name": "STEPS",
+                "name": "STEPS",
+                "type": "INT",
+                "links": [
+                  299
+                ]
+              },
+              {
+                "localized_name": "STEP_REFINER",
+                "name": "STEP_REFINER",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "CFG",
+                "name": "CFG",
+                "type": "FLOAT",
+                "links": [
+                  290
+                ]
+              },
+              {
+                "localized_name": "CKPT_NAME",
+                "name": "CKPT_NAME",
+                "type": "COMBO",
+                "links": null
+              },
+              {
+                "localized_name": "SAMPLER",
+                "name": "SAMPLER",
+                "type": "COMBO",
+                "links": [
+                  291
+                ]
+              },
+              {
+                "localized_name": "SCHEDULER",
+                "name": "SCHEDULER",
+                "type": "COMBO",
+                "links": [
+                  292
+                ]
+              },
+              {
+                "localized_name": "CLIP_WIDTH",
+                "name": "CLIP_WIDTH",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "CLIP_HEIGHT",
+                "name": "CLIP_HEIGHT",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_POS_G",
+                "name": "TEXT_POS_G",
+                "type": "STRING",
+                "links": [
+                  282
+                ]
+              },
+              {
+                "localized_name": "TEXT_POS_L",
+                "name": "TEXT_POS_L",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_NEG_G",
+                "name": "TEXT_NEG_G",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_NEG_L",
+                "name": "TEXT_NEG_L",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "마스크",
+                "name": "MASK",
+                "type": "MASK",
+                "links": null
+              },
+              {
+                "localized_name": "컨트롤넷",
+                "name": "CONTROL_NET",
+                "type": "CONTROL_NET",
+                "links": null
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ContextCream",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": []
+          },
+          {
+            "id": 120,
+            "type": "StringConcatenate",
+            "pos": [
+              -1560,
+              -80
+            ],
+            "size": [
+              400,
+              170
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "문자열_a",
+                "name": "string_a",
+                "type": "STRING",
+                "widget": {
+                  "name": "string_a"
+                },
+                "link": 282
+              },
+              {
+                "localized_name": "문자열_b",
+                "name": "string_b",
+                "type": "STRING",
+                "widget": {
+                  "name": "string_b"
+                },
+                "link": 278
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "문자열",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  157,
+                  321
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.20.1",
+              "Node name for S&R": "StringConcatenate",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": [
+              "",
+              "",
+              ","
+            ]
+          },
+          {
+            "id": 124,
+            "type": "CLIPTextEncode",
+            "pos": [
+              -1550,
+              160
+            ],
+            "size": [
+              400,
+              90
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "type": "CLIP",
+                "link": 298
+              },
+              {
+                "localized_name": "프롬프트 텍스트",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 157
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "조건",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "links": [
+                  173
+                ]
+              }
+            ],
+            "title": "긍정 컨디션",
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.20.1",
+              "Node name for S&R": "CLIPTextEncode",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": [
+              "frde,(rinotuna:0.2),(tevit \\\\(tevit15\\\\):0.2), \ndean winchester, \n\n1boy, male_focus, mature male, muscular, bara, large build, strongman waist, very short hair, dark brown hair, messy hair, hazel eyes, dark green eyes, thick eyebrows, stubble, sideburns stubble, \nwide_smile, tareme,\n\nmechanic, navy_shirts, pocket, sleeves rolled up, black cargo pants, rag_in_pocket, name patch, tool belt, \n\nlooking at viewer, cowboy shot, \nsimple background,"
+            ]
+          },
+          {
+            "id": 122,
+            "type": "KSampler",
+            "pos": [
+              -1500,
+              370
+            ],
+            "size": [
+              270,
+              270
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "모델",
+                "name": "model",
+                "type": "MODEL",
+                "link": 283
+              },
+              {
+                "localized_name": "긍정 조건",
+                "name": "positive",
+                "type": "CONDITIONING",
+                "link": 173
+              },
+              {
+                "localized_name": "부정 조건",
+                "name": "negative",
+                "type": "CONDITIONING",
+                "link": 286
+              },
+              {
+                "localized_name": "잠재 데이터",
+                "name": "latent_image",
+                "type": "LATENT",
+                "link": 287
+              },
+              {
+                "localized_name": "시드",
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 288
+              },
+              {
+                "localized_name": "스텝 수",
+                "name": "steps",
+                "type": "INT",
+                "widget": {
+                  "name": "steps"
+                },
+                "link": 299
+              },
+              {
+                "localized_name": "cfg",
+                "name": "cfg",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "cfg"
+                },
+                "link": 290
+              },
+              {
+                "localized_name": "샘플러 이름",
+                "name": "sampler_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "sampler_name"
+                },
+                "link": 291
+              },
+              {
+                "localized_name": "스케줄러",
+                "name": "scheduler",
+                "type": "COMBO",
+                "widget": {
+                  "name": "scheduler"
+                },
+                "link": 292
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "잠재 데이터",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  324
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.20.1",
+              "Node name for S&R": "KSampler",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": [
+              1047104002090303,
+              "randomize",
+              24,
+              8,
+              "euler",
+              "simple",
+              1
+            ]
+          },
+          {
+            "id": 123,
+            "type": "VAEDecode",
+            "pos": [
+              -820,
+              160
+            ],
+            "size": [
+              140,
+              50
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "잠재 데이터",
+                "name": "samples",
+                "type": "LATENT",
+                "link": 324
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 323
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "이미지",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  171
+                ]
+              }
+            ],
+            "properties": {
+              "cnr_id": "comfy-core",
+              "ver": "0.20.1",
+              "Node name for S&R": "VAEDecode",
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {},
+                "version": "7.5.2"
+              }
+            },
+            "widgets_values": []
+          },
+          {
+            "id": 545,
+            "type": "ContextCream",
+            "pos": [
+              -1060,
+              320
+            ],
+            "size": [
+              197.98828125,
+              486
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "base_ctx",
+                "name": "base_ctx",
+                "shape": 7,
+                "type": "RGTHREE_CONTEXT",
+                "link": 319
+              },
+              {
+                "localized_name": "model",
+                "name": "model",
+                "shape": 7,
+                "type": "MODEL",
+                "link": null
+              },
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "shape": 7,
+                "type": "CLIP",
+                "link": null
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "shape": 7,
+                "type": "VAE",
+                "link": null
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "shape": 7,
+                "type": "CONDITIONING",
+                "link": null
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "shape": 7,
+                "type": "CONDITIONING",
+                "link": null
+              },
+              {
+                "localized_name": "latent",
+                "name": "latent",
+                "shape": 7,
+                "type": "LATENT",
+                "link": null
+              },
+              {
+                "localized_name": "images",
+                "name": "images",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": null
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "steps",
+                "name": "steps",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "step_refiner",
+                "name": "step_refiner",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "cfg",
+                "name": "cfg",
+                "shape": 7,
+                "type": "FLOAT",
+                "link": null
+              },
+              {
+                "localized_name": "ckpt_name",
+                "name": "ckpt_name",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "sampler",
+                "name": "sampler",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "scheduler",
+                "name": "scheduler",
+                "shape": 7,
+                "type": "COMBO",
+                "link": null
+              },
+              {
+                "localized_name": "clip_width",
+                "name": "clip_width",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "clip_height",
+                "name": "clip_height",
+                "shape": 7,
+                "type": "INT",
+                "link": null
+              },
+              {
+                "localized_name": "text_pos_g",
+                "name": "text_pos_g",
+                "shape": 7,
+                "type": "STRING",
+                "link": 321
+              },
+              {
+                "localized_name": "text_pos_l",
+                "name": "text_pos_l",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "text_neg_g",
+                "name": "text_neg_g",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "text_neg_l",
+                "name": "text_neg_l",
+                "shape": 7,
+                "type": "STRING",
+                "link": null
+              },
+              {
+                "localized_name": "mask",
+                "name": "mask",
+                "shape": 7,
+                "type": "MASK",
+                "link": null
+              },
+              {
+                "localized_name": "control_net",
+                "name": "control_net",
+                "shape": 7,
+                "type": "CONTROL_NET",
+                "link": null
+              },
+              {
+                "localized_name": "lora_stack",
+                "name": "lora_stack",
+                "shape": 7,
+                "type": "LORA_STACK",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "CONTEXT",
+                "name": "CONTEXT",
+                "type": "RGTHREE_CONTEXT",
+                "links": [
+                  320
+                ]
+              },
+              {
+                "localized_name": "LORA_STACK",
+                "name": "LORA_STACK",
+                "type": "LORA_STACK",
+                "links": null
+              },
+              {
+                "localized_name": "모델",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": null
+              },
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": null
+              },
+              {
+                "localized_name": "VAE",
+                "name": "VAE",
+                "type": "VAE",
+                "links": [
+                  323
+                ]
+              },
+              {
+                "localized_name": "POSITIVE",
+                "name": "POSITIVE",
+                "type": "CONDITIONING",
+                "links": null
+              },
+              {
+                "localized_name": "NEGATIVE",
+                "name": "NEGATIVE",
+                "type": "CONDITIONING",
+                "links": null
+              },
+              {
+                "localized_name": "잠재 데이터",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": []
+              },
+              {
+                "localized_name": "이미지",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": null
+              },
+              {
+                "localized_name": "SEED",
+                "name": "SEED",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "STEPS",
+                "name": "STEPS",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "STEP_REFINER",
+                "name": "STEP_REFINER",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "CFG",
+                "name": "CFG",
+                "type": "FLOAT",
+                "links": null
+              },
+              {
+                "localized_name": "CKPT_NAME",
+                "name": "CKPT_NAME",
+                "type": "COMBO",
+                "links": null
+              },
+              {
+                "localized_name": "SAMPLER",
+                "name": "SAMPLER",
+                "type": "COMBO",
+                "links": null
+              },
+              {
+                "localized_name": "SCHEDULER",
+                "name": "SCHEDULER",
+                "type": "COMBO",
+                "links": null
+              },
+              {
+                "localized_name": "CLIP_WIDTH",
+                "name": "CLIP_WIDTH",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "CLIP_HEIGHT",
+                "name": "CLIP_HEIGHT",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_POS_G",
+                "name": "TEXT_POS_G",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_POS_L",
+                "name": "TEXT_POS_L",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_NEG_G",
+                "name": "TEXT_NEG_G",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "TEXT_NEG_L",
+                "name": "TEXT_NEG_L",
+                "type": "STRING",
+                "links": null
+              },
+              {
+                "localized_name": "마스크",
+                "name": "MASK",
+                "type": "MASK",
+                "links": null
+              },
+              {
+                "localized_name": "컨트롤넷",
+                "name": "CONTROL_NET",
+                "type": "CONTROL_NET",
+                "links": null
+              }
+            ],
+            "properties": {
+              "ue_properties": {
+                "widget_ue_connectable": {},
+                "input_ue_unconnectable": {}
+              },
+              "Node name for S&R": "ContextCream"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 173,
+            "origin_id": 124,
+            "origin_slot": 0,
+            "target_id": 122,
+            "target_slot": 1,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 157,
+            "origin_id": 120,
+            "origin_slot": 0,
+            "target_id": 124,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 171,
+            "origin_id": 123,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 277,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 511,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
+            "id": 278,
+            "origin_id": 511,
+            "origin_slot": 0,
+            "target_id": 120,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 281,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 522,
+            "target_slot": 0,
+            "type": "RGTHREE_CONTEXT"
+          },
+          {
+            "id": 282,
+            "origin_id": 522,
+            "origin_slot": 18,
+            "target_id": 120,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 283,
+            "origin_id": 522,
+            "origin_slot": 2,
+            "target_id": 122,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 286,
+            "origin_id": 522,
+            "origin_slot": 6,
+            "target_id": 122,
+            "target_slot": 2,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 287,
+            "origin_id": 522,
+            "origin_slot": 7,
+            "target_id": 122,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 288,
+            "origin_id": 522,
+            "origin_slot": 9,
+            "target_id": 122,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 290,
+            "origin_id": 522,
+            "origin_slot": 12,
+            "target_id": 122,
+            "target_slot": 6,
+            "type": "FLOAT"
+          },
+          {
+            "id": 291,
+            "origin_id": 522,
+            "origin_slot": 14,
+            "target_id": 122,
+            "target_slot": 7,
+            "type": "COMBO"
+          },
+          {
+            "id": 292,
+            "origin_id": 522,
+            "origin_slot": 15,
+            "target_id": 122,
+            "target_slot": 8,
+            "type": "COMBO"
+          },
+          {
+            "id": 298,
+            "origin_id": 522,
+            "origin_slot": 3,
+            "target_id": 124,
+            "target_slot": 0,
+            "type": "CLIP"
+          },
+          {
+            "id": 299,
+            "origin_id": 522,
+            "origin_slot": 10,
+            "target_id": 122,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 315,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 511,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 319,
+            "origin_id": 522,
+            "origin_slot": 0,
+            "target_id": 545,
+            "target_slot": 0,
+            "type": "RGTHREE_CONTEXT"
+          },
+          {
+            "id": 320,
+            "origin_id": 545,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "RGTHREE_CONTEXT"
+          },
+          {
+            "id": 321,
+            "origin_id": 120,
+            "origin_slot": 0,
+            "target_id": 545,
+            "target_slot": 17,
+            "type": "STRING"
+          },
+          {
+            "id": 323,
+            "origin_id": 545,
+            "origin_slot": 4,
+            "target_id": 123,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 324,
+            "origin_id": 122,
+            "origin_slot": 0,
+            "target_id": 123,
+            "target_slot": 0,
+            "type": "LATENT"
+          }
+        ],
+        "extra": {
+          "ue_links": [],
+          "links_added_by_ue": []
+        }
+      }
+    ]
+  },
+  "config": {},
+  "extra": {
+    "ue_links": [],
+    "links_added_by_ue": [],
+    "frontendVersion": "1.42.15",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true,
+    "ds": {
+      "scale": 1.2100000000000002,
+      "offset": [
+        3879.211507856886,
+        420.0365349250277
+      ]
+    }
+  },
+  "version": 0.4
+}
